@@ -18,7 +18,7 @@ def searchPlayer(nickname):
 
     response = requests.get("https://aoe2.net/api/leaderboard", params=query)
 
-    players = response.json();
+    players = response.json()
 
     nicks = {"Name":[]}
 
@@ -43,14 +43,14 @@ def getPlayer(nickname):
 
     response = requests.get("https://aoe2.net/api/leaderboard", params=query)
 
-    return response.json();
+    return response.json()
  ###############################################################################   
 
  # https://aoe2.net/api/leaderboard?game=aoe2de&leaderboard_id=3&start=1&count=1
 # Player steam_id
 
 def getPlayerProfile_id(nickname):
-    player = "";
+    player = ""
 
     query = {
         'game': 'aoe2de',
@@ -62,13 +62,13 @@ def getPlayerProfile_id(nickname):
 
     response = requests.get("https://aoe2.net/api/leaderboard", params=query)
        
-    players = response.json();
+    players = response.json()
 
     for y in range(len(players['leaderboard'])):
         if players['leaderboard'][y]["name"]==nickname:
             player = players['leaderboard'][y]["profile_id"]
 
-    return player;
+    return player
  ###############################################################################  
 
 
@@ -89,7 +89,7 @@ def getMatchHist(nickname,count_start,count_end):
 
     response = requests.get("https://aoe2.net/api/player/matches", params=query)
 
-    return response.json();
+    return response.json()
 ####################################################################################
 
 
@@ -106,9 +106,9 @@ def getMatchHistQty(nickname):
 
     response = requests.get("https://aoe2.net/api/leaderboard", params=query)
 
-    matches = response.json();
+    matches = response.json()
 
-    return matches["leaderboard"][0]["games"];
+    return matches["leaderboard"][0]["games"]
 
 ####################################################################################
 
@@ -116,28 +116,28 @@ def getMatchHistQty(nickname):
 ## 1 vs 1 Match statistics
 def matchStats(nick1,nick2):
 
-    player1 = 0;
-    player2 = 0;
-    newlist = [];
+    player1 = 0
+    player2 = 0
+    newlist = []
 
-    nick1Qty = getMatchHistQty(nick1);
-    nick2Qty = getMatchHistQty(nick2);
+    nick1Qty = getMatchHistQty(nick1)
+    nick2Qty = getMatchHistQty(nick2)
 
-    qtyMatches = nick1Qty if (nick1Qty > nick2Qty) else nick2Qty;
+    qtyMatches = nick1Qty if (nick1Qty > nick2Qty) else nick2Qty
 
-    searchTimes = math.ceil(qtyMatches / 1000);
+    searchTimes = math.ceil(qtyMatches / 1000)
 
     print("SearchTimes: ", searchTimes)
 
-    matchNick = nick1 if (nick1Qty > nick2Qty) else nick2;
-    matchNick2 = nick1 if (nick1Qty < nick2Qty) else nick2;
+    matchNick = nick1 if (nick1Qty > nick2Qty) else nick2
+    matchNick2 = nick1 if (nick1Qty < nick2Qty) else nick2
 
     print(matchNick)
     print(matchNick2)
 
     for i in range(searchTimes):
         if (i==0):
-            matches = getMatchHist(matchNick,1,1000);
+            matches = getMatchHist(matchNick,1,1000)
         else:
             matches = getMatchHist(matchNick,i*1000,i*1000+1000);        
 
@@ -151,12 +151,12 @@ def matchStats(nick1,nick2):
             if(elem["players"][0]["won"]):
                 player1 = player1 + 1; 
             else:
-                player2 = player2 + 1;
+                player2 = player2 + 1
         else:
             if(elem["players"][0]["won"]):
-                player2 = player2 + 1; 
+                player2 = player2 + 1
             else:
-                player1 = player1 + 1;
+                player1 = player1 + 1
 
     thisdict = {
         "Matches": player1 + player2,
@@ -166,7 +166,7 @@ def matchStats(nick1,nick2):
         "Wins2": player2
     }
    
-    return thisdict;
+    return thisdict
     
     
 
